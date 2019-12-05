@@ -41,7 +41,7 @@ class Table extends Component {
       })
       .then(resData => {
         this.state.list = resData.data.events;
-        console.log(JSON.stringify(this.state.list));
+        console.log(this.state.list);
       })
       .catch(err => {
         console.log(err);
@@ -52,6 +52,7 @@ class Table extends Component {
     return (
       <div>
         {this.getData()}
+
       </div>
     );
   }
