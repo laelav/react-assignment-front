@@ -14,11 +14,15 @@ class Table extends Component {
     tabletitle4: "Multiply (x)",
     list: []
   };
+  componentDidMount(){
+    this.getData();
+  }
   getData = event => {
     const body = {
       query:
         "query {" +
         "events {" +
+        "_id " +
         "num1 " +
         "num2 " +
         "addition " +
@@ -40,18 +44,24 @@ class Table extends Component {
         return res.json();
       })
       .then(resData => {
-        this.state.list = resData.data.events;
-        console.log(this.state.list);
+        const events = resData.data.events;
+        this.setState({list: events})
       })
       .catch(err => {
         console.log(err);
       });
   };
 
+
   render() {
+    const eventList = this.state.list.map(event=>{
+      return <li key={event._id}className="events_list-item">{event.num1}</li>;
+    })
     return (
       <div>
-        {this.getData()}
+      <ul className="events_list">
+      {eventList}
+      </ul>
 
       </div>
     );

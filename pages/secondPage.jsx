@@ -19,7 +19,7 @@ class SecondPage extends Component {
     return (
       <div>
         <p className="main-vaigation">This is the updated table:</p>
-        <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+        <br /> <br /> <br />
         <Table />
 
         
