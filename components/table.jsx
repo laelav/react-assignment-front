@@ -19,7 +19,6 @@ class Table extends Component {
       query:
         "query {" +
         "events {" +
-        "_id " +
         "num1 " +
         "num2 " +
         "addition " +
@@ -42,7 +41,7 @@ class Table extends Component {
       })
       .then(resData => {
         this.state.list = resData.data.events;
-        console.log(this.state.list);
+        console.log(JSON.stringify(this.state.list));
       })
       .catch(err => {
         console.log(err);
