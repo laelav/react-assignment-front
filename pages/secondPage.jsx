@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import Table from "../components/table";
+import MyTable from "../components/myTable";
 import Img from "react-image";
 import "./topstyle.css";
 import {
@@ -14,15 +14,14 @@ import {
 const previousPageLogo =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShIAoBeg92fsoCyn3sfIPJMh5MF-qPN6x7Mo2VLTPR1xSAmhFI&s";
 
+
 class SecondPage extends Component {
   render() {
     return (
       <div>
         <p className="main-vaigation">This is the updated table:</p>
         <br /> <br /> <br />
-        <Table />
-
-        
+        <MyTable />
         <br />
         <Link to="/FirstPage/">
           <img src={previousPageLogo} width="50" height="50" />
@@ -34,6 +33,5 @@ class SecondPage extends Component {
   getHeaderBS() {
     return "badge m-2 badge-light";
   }
-
 }
 export default SecondPage;

@@ -9,7 +9,7 @@ import Draggable from "react-draggable";
 import "react-virtualized/styles.css";
 
 const TOTAL_WIDTH = 500;
-class Table extends Component {
+class MyTable extends Component {
   state = {
     tabletitle1: "Number #1",
     tabletitle2: "Number #2",
@@ -157,4 +157,4 @@ class Table extends Component {
   }
 }
 
-export default Table;
+export default MyTable;
