@@ -8,7 +8,7 @@ import { Column, Table } from "react-virtualized";
 import Draggable from "react-draggable";
 import "react-virtualized/styles.css";
 
-const TOTAL_WIDTH = 500;
+const TOTAL_WIDTH = 800;
 class MyTable extends Component {
   state = {
     tabletitle1: "Number #1",
