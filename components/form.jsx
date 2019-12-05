@@ -14,37 +14,54 @@ class Form extends Component {
       event.preventDefault();
       alert("You must enter a number in all fields!");
     } else {
-      var url = "https://reactassignmentserver.herokuapp.com/sendnums/";
       const body = {
         query:
           "mutation{" +
           "createEvent(eventInput:{num1:" +
-          this.state.num1 +
+          '"' +
+          this.state.num1.toString() +
+          '"' +
           ",num2:" +
-          this.state.num2 +
-          ',addition:"5",multiply:"6"}){' +
-          "_id" +
-          "num1" +
-          "num2" +
-          "addition" +
+          '"' +
+          this.state.num2.toString() +
+          '"' +
+          "}){" +
+          "_id " +
+          "num1 " +
+          "num2 " +
+          "addition " +
           "multiply" +
-          "}"
+          "}}"
       };
-/*
+      /*
       url += this.state.num1 + "/" + this.state.num2;
       var request = new XMLHttpRequest();
       request.open("POST", url, true);
       request.setRequestHeader("Content-Type", "text/plain");
 
       request.send();
-*/      
-      fetch('http://localhost:8000/graphql',{
-        method: 'POST',
+*/
+
+      console.log(body);
+      fetch("https://reactassignmentserver.herokuapp.com/graphql", {
+        method: "POST",
         body: JSON.stringify(body),
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         }
       })
+        .then(res => {
+          if (res.status !== 200 && res.status !== 201) {
+            throw new Error("Failed!");
+          }
+          return res.json();
+        })
+        .then(resData => {
+          console.log(resData);
+        })
+        .catch(err => {
+          console.log(err);
+        });
       event.target.num1.value = "";
       event.target.num2.value = "";
       this.setState({ [event.target.num1.name]: "" });

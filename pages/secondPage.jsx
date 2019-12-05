@@ -21,6 +21,8 @@ class SecondPage extends Component {
         <p className="main-vaigation">This is the updated table:</p>
         <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
         <Table />
+
+        
         <br />
         <Link to="/FirstPage/">
           <img src={previousPageLogo} width="50" height="50" />
@@ -32,5 +34,6 @@ class SecondPage extends Component {
   getHeaderBS() {
     return "badge m-2 badge-light";
   }
+
 }
 export default SecondPage;
