@@ -33,16 +33,6 @@ class Form extends Component {
           "multiply" +
           "}}"
       };
-      /*
-      url += this.state.num1 + "/" + this.state.num2;
-      var request = new XMLHttpRequest();
-      request.open("POST", url, true);
-      request.setRequestHeader("Content-Type", "text/plain");
-
-      request.send();
-*/
-
-      //console.log(body);
       fetch("https://reactassignmentserver.herokuapp.com/graphql", {
         method: "POST",
         body: JSON.stringify(body),
