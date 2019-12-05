@@ -42,7 +42,7 @@ class Form extends Component {
       request.send();
 */
 
-      console.log(body);
+      //console.log(body);
       fetch("https://reactassignmentserver.herokuapp.com/graphql", {
         method: "POST",
         body: JSON.stringify(body),

@@ -4,11 +4,17 @@ import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
+import { Column, Table } from "react-virtualized";
 
 class Table extends Component {
-  state = {};
-  mySubmitHandler = event => {
-    event.preventDefault();
+  state = {
+    tabletitle1: "Number #1",
+    tabletitle2: "Number #2",
+    tabletitle3: "Addition (+)",
+    tabletitle4: "Multiply (x)",
+    list: []
+  };
+  getData = event => {
     const body = {
       query:
         "query {" +
@@ -20,7 +26,7 @@ class Table extends Component {
         "multiply" +
         "}}"
     };
-    console.log(body);
+    //console.log(body);
     fetch("https://reactassignmentserver.herokuapp.com/graphql", {
       method: "POST",
       body: JSON.stringify(body),
@@ -35,7 +41,8 @@ class Table extends Component {
         return res.json();
       })
       .then(resData => {
-        console.log(resData);
+        this.state.list = resData.data.events;
+        console.log(this.state.list);
       })
       .catch(err => {
         console.log(err);
@@ -44,9 +51,9 @@ class Table extends Component {
 
   render() {
     return (
-      <form onSubmit={this.mySubmitHandler}>
-        <input type="submit" className={this.getButtonBS()} />
-      </form>
+      <div>
+        {this.getData()}
+      </div>
     );
   }
   getButtonBS() {
