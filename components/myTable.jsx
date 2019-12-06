@@ -48,6 +48,19 @@ class MyTable extends Component {
       });
   };
 
+    rowStyleFormat(row) {
+    if (row.index%2 == 0) {
+      return {
+        backgroundColor: '#b7b9bd',
+        color: '#333'
+      };
+    }
+    return {
+      backgroundColor: '#fff',
+      color: '#333'
+    };
+  }
+
   render() {
     console.log(this.state.list);
 
@@ -59,6 +72,7 @@ class MyTable extends Component {
         rowHeight={30}
         rowCount={this.state.list.length}
         rowGetter={({ index }) => this.state.list[index]}
+        rowStyle={this.rowStyleFormat.bind(this)}
       >
         <Column
           headerRenderer={this.headerRenderer}

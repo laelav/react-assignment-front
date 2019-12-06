@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider, Query } from "react-apollo";
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { InMemoryCache } from "apollo-cache-inmemory";
 import { useMutation } from "@apollo/react-hooks";
-import {addQuery, showQuery} from './myQueries'
+import { addQuery, showQuery } from "./myQueries";
 
 const client = new ApolloClient({
   uri: "https://reactassignmentserver.herokuapp.com/graphql",
@@ -26,12 +26,12 @@ class Form extends Component {
       client
         .mutate({
           mutation: addQuery,
-          fetchPolicy: 'no-cache',
+          fetchPolicy: "no-cache",
           variables: {
             num1: this.state.num1.toString(),
             num2: this.state.num2.toString()
           },
-          refetchQueries:[{query: showQuery}]
+          refetchQueries: [{ query: showQuery }]
         })
         .then(resData => {
           console.log(resData);
