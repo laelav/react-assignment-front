@@ -9,7 +9,6 @@ const client = new ApolloClient({
   uri: "https://reactassignmentserver.herokuapp.com/graphql"
 });
 const addQuery = gql`
-  
     mutation($num1: String!, $num2: String!) {
       createEvent(eventInput: { num1: $num1, num2: $num2 }) {
         _id
