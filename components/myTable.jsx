@@ -1,12 +1,28 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import { ApolloProvider } from "react-apollo";
-import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { Column, Table } from "react-virtualized";
 import Draggable from "react-draggable";
 import "react-virtualized/styles.css";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider, Query } from "react-apollo";
+import gql from "graphql-tag";
+
+const client = new ApolloClient({
+  uri: "https://reactassignmentserver.herokuapp.com/graphql"
+});
+const showQuery = gql`
+  {
+    events {
+      _id
+      num1
+      num2
+      addition
+      multiply
+    }
+  }
+`;
 
 const TOTAL_WIDTH = 800;
 class MyTable extends Component {
@@ -27,30 +43,9 @@ class MyTable extends Component {
     this.getData();
   }
   getData = event => {
-    const body = {
-      query:
-        "query {" +
-        "events {" +
-        "_id " +
-        "num1 " +
-        "num2 " +
-        "addition " +
-        "multiply" +
-        "}}"
-    };
-    //console.log(body);
-    fetch("https://reactassignmentserver.herokuapp.com/graphql", {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed!");
-        }
-        return res.json();
+    client
+      .query({
+        query: showQuery
       })
       .then(resData => {
         const events = resData.data.events;

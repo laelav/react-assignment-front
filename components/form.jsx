@@ -1,6 +1,25 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import axios from "axios";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider, Query } from "react-apollo";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/react-hooks";
+
+const client = new ApolloClient({
+  uri: "https://reactassignmentserver.herokuapp.com/graphql"
+});
+const addQuery = gql`
+  
+    mutation($num1: String!, $num2: String!) {
+      createEvent(eventInput: { num1: $num1, num2: $num2 }) {
+        _id
+        num1
+        num2
+        addition
+        multiply
+      }
+    }
+`;
 
 class Form extends Component {
   state = {
@@ -14,37 +33,13 @@ class Form extends Component {
       event.preventDefault();
       alert("You must enter a number in all fields!");
     } else {
-      const body = {
-        query:
-          "mutation{" +
-          "createEvent(eventInput:{num1:" +
-          '"' +
-          this.state.num1.toString() +
-          '"' +
-          ",num2:" +
-          '"' +
-          this.state.num2.toString() +
-          '"' +
-          "}){" +
-          "_id " +
-          "num1 " +
-          "num2 " +
-          "addition " +
-          "multiply" +
-          "}}"
-      };
-      fetch("https://reactassignmentserver.herokuapp.com/graphql", {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .then(res => {
-          if (res.status !== 200 && res.status !== 201) {
-            throw new Error("Failed!");
+      client
+        .mutate({
+          mutation: addQuery,
+          variables: {
+            num1: this.state.num1.toString(),
+            num2: this.state.num2.toString()
           }
-          return res.json();
         })
         .then(resData => {
           console.log(resData);
@@ -52,6 +47,7 @@ class Form extends Component {
         .catch(err => {
           console.log(err);
         });
+
       event.target.num1.value = "";
       event.target.num2.value = "";
       this.setState({ [event.target.num1.name]: "" });
