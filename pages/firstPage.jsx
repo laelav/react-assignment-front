@@ -17,7 +17,7 @@ class FirstPage extends Component {
   render() {
     return (
       <div>
-        <p className="main-vaigation">Please enter 2 numbers:</p>
+        <p className="main-navigation">Please enter 2 numbers:</p>
         <br />
         <Form />
         <br />

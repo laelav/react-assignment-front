@@ -19,7 +19,7 @@ class SecondPage extends Component {
   render() {
     return (
       <div>
-        <p className="main-vaigation">This is the updated table:</p>
+        <p className="main-navigation">This is the updated table:</p>
         <br /> <br /> <br />
         <MyTable />
         <br />
