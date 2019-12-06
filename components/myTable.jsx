@@ -8,21 +8,12 @@ import "react-virtualized/styles.css";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider, Query } from "react-apollo";
 import gql from "graphql-tag";
+import {showQuery} from './myQueries'
 
 const client = new ApolloClient({
   uri: "https://reactassignmentserver.herokuapp.com/graphql"
 });
-const showQuery = gql`
-  {
-    events {
-      _id
-      num1
-      num2
-      addition
-      multiply
-    }
-  }
-`;
+
 
 const TOTAL_WIDTH = 800;
 class MyTable extends Component {

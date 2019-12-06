@@ -4,21 +4,12 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider, Query } from "react-apollo";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
+import {showQuery} from "./myTable";
+import {addQuery} from './myQueries'
 
 const client = new ApolloClient({
   uri: "https://reactassignmentserver.herokuapp.com/graphql"
 });
-const addQuery = gql`
-    mutation($num1: String!, $num2: String!) {
-      createEvent(eventInput: { num1: $num1, num2: $num2 }) {
-        _id
-        num1
-        num2
-        addition
-        multiply
-      }
-    }
-`;
 
 class Form extends Component {
   state = {
@@ -39,6 +30,7 @@ class Form extends Component {
             num1: this.state.num1.toString(),
             num2: this.state.num2.toString()
           }
+         // refetchQueries:[{query: showQuery}]
         })
         .then(resData => {
           console.log(resData);
