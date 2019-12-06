@@ -2,34 +2,40 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { Column, Table } from "react-virtualized";
+import { Column, Table, SortDirection, SortIndicator } from "react-virtualized";
 import Draggable from "react-draggable";
 import "react-virtualized/styles.css";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider, Query } from "react-apollo";
-import {showQuery} from './myQueries'
+import { showQuery } from "./myQueries";
+import _ from "underscore";
 
 const client = new ApolloClient({
   uri: "https://reactassignmentserver.herokuapp.com/graphql",
   cache: new InMemoryCache()
 });
 
-
 const TOTAL_WIDTH = 800;
 class MyTable extends Component {
-  state = {
-    tabletitle1: "Number #1",
-    tabletitle2: "Number #2",
-    tabletitle3: "Addition (+)",
-    tabletitle4: "Multiply (x)",
-    list: [],
-    widths: {
-      num1: 0.25,
-      num2: 0.25,
-      addition: 0.25,
-      multiply: 0.25
-    }
-  };
+  constructor() {
+    super();
+    this.state = {
+      tabletitle1: "Number #1",
+      tabletitle2: "Number #2",
+      tabletitle3: "Addition (+)",
+      tabletitle4: "Multiply (x)",
+      list: [],
+      widths: {
+        num1: 0.25,
+        num2: 0.25,
+        addition: 0.25,
+        multiply: 0.25
+      },
+      sortBy: "num1",
+      sortDirection: SortDirection.DESC,
+    };
+    this.sort = this.sort.bind(this);
+  }
   componentDidMount() {
     this.getData();
   }
@@ -37,7 +43,7 @@ class MyTable extends Component {
     client
       .query({
         query: showQuery,
-        fetchPolicy: 'no-cache'
+        fetchPolicy: "no-cache"
       })
       .then(resData => {
         const events = resData.data.events;
@@ -48,19 +54,31 @@ class MyTable extends Component {
       });
   };
 
-    rowStyleFormat(row) {
-    if (row.index%2 == 0) {
+  rowStyleFormat(row) {
+    if (row.index % 2 == 0) {
       return {
-        backgroundColor: '#b7b9bd',
-        color: '#333'
+        backgroundColor: "#b7b9bd",
+        color: "#333"
       };
     }
     return {
-      backgroundColor: '#fff',
-      color: '#333'
+      backgroundColor: "#fff",
+      color: "#333"
     };
   }
+  sort({ sortBy, sortDirection }) {
+    console.log("Here1");
+    console.log(this.state.list);
+    console.log("Here2");
 
+    const tempList = _.sortBy(this.state.list, item => item[sortBy]);
+    console.log(tempList);
+    const sortedList =
+      sortDirection === SortDirection.DESC
+        ? this.state.list.reverse()
+        : this.state.list;
+    this.setState({ sortBy, sortDirection, sortedList });
+  }
   render() {
     console.log(this.state.list);
 
@@ -73,6 +91,9 @@ class MyTable extends Component {
         rowCount={this.state.list.length}
         rowGetter={({ index }) => this.state.list[index]}
         rowStyle={this.rowStyleFormat.bind(this)}
+        sort={this.sort}
+        sortBy={this.state.sortBy}
+        sortDirection={this.state.sortDirection}
       >
         <Column
           headerRenderer={this.headerRenderer}
