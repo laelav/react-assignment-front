@@ -9,13 +9,19 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider, Query } from "react-apollo";
 import { showQuery } from "./myQueries";
 import _ from "underscore";
+import Select from "react-select";
 
 const client = new ApolloClient({
   uri: "https://reactassignmentserver.herokuapp.com/graphql",
   cache: new InMemoryCache()
 });
-
-const TOTAL_WIDTH = 800;
+const WIDTH_OPTIONS = [
+  { value: '400', label: 'Narrow' },
+  { value: '650', label: 'Normal' },
+  { value: '1000', label: 'Wide' },
+];
+var TOTAL_WIDTH = 1000;
+var TOTAL_WIDTH2 = 1000;
 class MyTable extends Component {
   constructor() {
     super();
@@ -33,12 +39,24 @@ class MyTable extends Component {
       },
       sortBy: "num1",
       sortDirection: SortDirection.DESC,
+      selectedOption: WIDTH_OPTIONS[2]
     };
     this.sort = this.sort.bind(this);
   }
   componentDidMount() {
     this.getData();
   }
+
+   handleChange = selectedOption => {
+    this.setState(
+      { selectedOption },
+      () => console.log(`Option selected:`, this.state.selectedOption)
+    );
+    TOTAL_WIDTH2 = selectedOption.value;
+    //this.setState(TOTAL_WIDTH);
+    //console.log(TOTAL_WIDTH);
+    //this.forceUpdate();
+  };
   getData = event => {
     client
       .query({
@@ -67,7 +85,9 @@ class MyTable extends Component {
     };
   }
   sort({ sortBy, sortDirection }) {
-    this.state.list = _.sortBy(this.state.list, item => parseInt(item[sortBy],10));
+    this.state.list = _.sortBy(this.state.list, item =>
+      parseInt(item[sortBy], 10)
+    );
     const sortedList =
       sortDirection === SortDirection.DESC
         ? this.state.list.reverse()
@@ -78,43 +98,52 @@ class MyTable extends Component {
     //console.log(this.state.list);
 
     return (
-      <Table
-        width={TOTAL_WIDTH}
-        height={300}
-        headerHeight={20}
-        rowHeight={30}
-        rowCount={this.state.list.length}
-        rowGetter={({ index }) => this.state.list[index]}
-        rowStyle={this.rowStyleFormat.bind(this)}
-        sort={this.sort}
-        sortBy={this.state.sortBy}
-        sortDirection={this.state.sortDirection}
-      >
-        <Column
-          headerRenderer={this.headerRenderer}
-          dataKey="num1"
-          label={this.state.tabletitle1}
-          width={this.state.widths.num1 * TOTAL_WIDTH}
+      <div>
+      <p>
+        <Select
+          value={this.state.selectedOption}
+          onChange={this.handleChange}
+          options={WIDTH_OPTIONS}
         />
-        <Column
-          headerRenderer={this.headerRenderer}
-          dataKey="num2"
-          label={this.state.tabletitle2}
-          width={this.state.widths.num2 * TOTAL_WIDTH}
-        />
-        <Column
-          headerRenderer={this.headerRenderer}
-          dataKey="addition"
-          label={this.state.tabletitle3}
-          width={this.state.widths.addition * TOTAL_WIDTH}
-        />
-        <Column
-          headerRenderer={this.headerRenderer}
-          dataKey="multiply"
-          label={this.state.tabletitle4}
-          width={this.state.widths.multiply * TOTAL_WIDTH}
-        />
-      </Table>
+        </p>
+        <Table
+          width={TOTAL_WIDTH}
+          height={300}
+          headerHeight={20}
+          rowHeight={30}
+          rowCount={this.state.list.length}
+          rowGetter={({ index }) => this.state.list[index]}
+          rowStyle={this.rowStyleFormat.bind(this)}
+          sort={this.sort}
+          sortBy={this.state.sortBy}
+          sortDirection={this.state.sortDirection}
+        >
+          <Column
+            headerRenderer={this.headerRenderer}
+            dataKey="num1"
+            label={this.state.tabletitle1}
+            width={this.state.widths.num1 * TOTAL_WIDTH2}
+          />
+          <Column
+            headerRenderer={this.headerRenderer}
+            dataKey="num2"
+            label={this.state.tabletitle2}
+            width={this.state.widths.num2 * TOTAL_WIDTH2}
+          />
+          <Column
+            headerRenderer={this.headerRenderer}
+            dataKey="addition"
+            label={this.state.tabletitle3}
+            width={this.state.widths.addition * TOTAL_WIDTH2}
+          />
+          <Column
+            headerRenderer={this.headerRenderer}
+            dataKey="multiply"
+            label={this.state.tabletitle4}
+            width={this.state.widths.multiply * TOTAL_WIDTH2}
+          />
+        </Table>
+      </div>
     );
   }
   headerRenderer = ({
