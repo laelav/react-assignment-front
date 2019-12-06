@@ -67,12 +67,7 @@ class MyTable extends Component {
     };
   }
   sort({ sortBy, sortDirection }) {
-    console.log("Here1");
-    console.log(this.state.list);
-    console.log("Here2");
-
     const tempList = _.sortBy(this.state.list, item => item[sortBy]);
-    console.log(tempList);
     const sortedList =
       sortDirection === SortDirection.DESC
         ? this.state.list.reverse()
@@ -80,7 +75,7 @@ class MyTable extends Component {
     this.setState({ sortBy, sortDirection, sortedList });
   }
   render() {
-    console.log(this.state.list);
+    //console.log(this.state.list);
 
     return (
       <Table
