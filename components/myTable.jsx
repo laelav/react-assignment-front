@@ -7,7 +7,6 @@ import Draggable from "react-draggable";
 import "react-virtualized/styles.css";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider, Query } from "react-apollo";
-import gql from "graphql-tag";
 import {showQuery} from './myQueries'
 
 const client = new ApolloClient({

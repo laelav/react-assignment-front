@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider, Query } from "react-apollo";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
-import {showQuery} from "./myTable";
-import {addQuery} from './myQueries'
+import {addQuery, showQuery} from './myQueries'
 
 const client = new ApolloClient({
   uri: "https://reactassignmentserver.herokuapp.com/graphql"
@@ -29,8 +27,8 @@ class Form extends Component {
           variables: {
             num1: this.state.num1.toString(),
             num2: this.state.num2.toString()
-          }
-         // refetchQueries:[{query: showQuery}]
+          },
+          refetchQueries:[{query: showQuery}]
         })
         .then(resData => {
           console.log(resData);
