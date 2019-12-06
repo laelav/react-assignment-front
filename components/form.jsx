@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider, Query } from "react-apollo";
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import { useMutation } from "@apollo/react-hooks";
 import {addQuery, showQuery} from './myQueries'
 
 const client = new ApolloClient({
-  uri: "https://reactassignmentserver.herokuapp.com/graphql"
+  uri: "https://reactassignmentserver.herokuapp.com/graphql",
+  cache: new InMemoryCache()
 });
 
 class Form extends Component {

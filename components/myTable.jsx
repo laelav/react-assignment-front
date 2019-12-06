@@ -10,7 +10,8 @@ import { ApolloProvider, Query } from "react-apollo";
 import {showQuery} from './myQueries'
 
 const client = new ApolloClient({
-  uri: "https://reactassignmentserver.herokuapp.com/graphql"
+  uri: "https://reactassignmentserver.herokuapp.com/graphql",
+  cache: new InMemoryCache()
 });
 
 
