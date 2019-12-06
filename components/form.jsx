@@ -24,6 +24,7 @@ class Form extends Component {
       client
         .mutate({
           mutation: addQuery,
+          fetchPolicy: 'no-cache',
           variables: {
             num1: this.state.num1.toString(),
             num2: this.state.num2.toString()

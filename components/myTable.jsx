@@ -35,7 +35,8 @@ class MyTable extends Component {
   getData = event => {
     client
       .query({
-        query: showQuery
+        query: showQuery,
+        fetchPolicy: 'no-cache'
       })
       .then(resData => {
         const events = resData.data.events;
